@@ -14,18 +14,6 @@ A lightweight PHP application that allows users to **subscribe to daily XKCD com
 
 ---
 
-## 🗂️ Project Structure
-
-.
-├── functions.php # Core logic (mail, register, unsubscribe, XKCD fetch)
-├── index.php # Email registration + OTP verification
-├── unsubscribe.php # Secure unsubscribe flow
-├── setup_cron.sh # Script to install daily CRON job
-├── registered_emails.txt # List of registered emails
-├── cron.php # (You need to create this) Sends XKCD to all subscribers
-
-
----
 
 ## ⚙️ How It Works
 
