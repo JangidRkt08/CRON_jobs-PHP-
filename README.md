@@ -1,97 +1,89 @@
-📬 XKCD Email Subscription and Unsubscription System
-A simple PHP-based project that allows users to subscribe to daily XKCD comic emails and unsubscribe using an email verification system.
+# 📬 XKCD Email Subscription System
 
-🚀 Features
-✅ Email registration with 6-digit OTP verification
+A lightweight PHP application that allows users to **subscribe to daily XKCD comics**, receive them via email, and **unsubscribe securely** using a verification code system.
 
-✅ Daily XKCD comic delivery via CRON job
+---
 
-✅ Secure email unsubscription with verification code
+## 🚀 Features
 
-✅ XKCD comic fetched randomly each day
+- 🔐 Email registration with OTP verification (6-digit code)
+- 📥 Daily XKCD comic delivery via CRON job
+- ❌ Secure unsubscription flow with verification
+- 📁 File-based email storage (no database required)
+- 🧠 XKCD comic fetched randomly via their API
 
-✅ Plain file-based email storage (registered_emails.txt)
+---
 
-🛠️ Tech Stack
-PHP 7+
+## 🗂️ Project Structure
 
-HTML
+.
+├── functions.php # Core logic (mail, register, unsubscribe, XKCD fetch)
+├── index.php # Email registration + OTP verification
+├── unsubscribe.php # Secure unsubscribe flow
+├── setup_cron.sh # Script to install daily CRON job
+├── registered_emails.txt # List of registered emails
+├── cron.php # (You need to create this) Sends XKCD to all subscribers
 
-CRON (Linux job scheduler)
 
-📁 Project Structure
-bash
-Copy
-Edit
-├── functions.php              # Core functionality: send mail, register/unsubscribe, fetch XKCD
-├── index.php                 # Email registration + verification
-├── unsubscribe.php           # Email unsubscription + verification
-├── registered_emails.txt     # Stores subscribed emails (plain text)
-├── setup_cron.sh             # Script to setup CRON job for daily email
-├── cron.php                  # (You should create this) Sends emails to all subscribers daily
-📝 How It Works
-🔐 1. Registering an Email
-User submits email in index.php
+---
 
-Receives a 6-digit code on the given email
+## ⚙️ How It Works
 
-Enters the code to verify and get registered
+### 1️⃣ Register Email
 
-Email is stored in registered_emails.txt
+- User submits email on `index.php`
+- A 6-digit verification code is sent
+- User verifies using the code → email gets saved in `registered_emails.txt`
 
-🧾 2. Daily XKCD Comic via CRON
-A CRON job calls cron.php every 24 hours
+### 2️⃣ Daily XKCD Delivery
 
-Each registered email receives a random XKCD comic
+- `cron.php` runs via CRON (set up using `setup_cron.sh`)
+- A random XKCD comic is fetched using the public API
+- The comic is sent as an HTML email to all registered users
 
-❌ 3. Unsubscribe via unsubscribe.php
-User enters email → gets verification code
+### 3️⃣ Unsubscribe
 
-Enters code to confirm unsubscription
+- User submits email on `unsubscribe.php`
+- Receives a 6-digit verification code
+- If verified, the email is removed from `registered_emails.txt`
 
-Email is removed from registered_emails.txt
+---
 
-📦 Installation & Setup
-1. Clone this repository
-bash
-Copy
-Edit
+## 🧪 Setup & Usage
+
+### 🔧 Requirements
+
+- PHP 7.0+
+- Linux shell access (for CRON setup)
+- PHP `mail()` function configured
+
+### 📥 Installation
+
+```bash
 git clone https://github.com/your-username/xkcd-emailer.git
 cd xkcd-emailer
-2. Set up CRON Job
-Run the shell script to install a CRON job:
 
-bash
-Copy
-Edit
+
+📩 Test Registration
+Run index.php in your browser (using localhost or web server)
+
+Enter your email → receive OTP
+
+Enter OTP to register
+
+## 📩 Test Registration
+
+1. Open `index.php` in your browser (via `localhost` or on a web server).
+2. Enter your email address.
+3. You will receive a 6-digit OTP on your email.
+4. Enter the OTP to complete registration.
+
+---
+
+## ⏰ Set up CRON for Daily Emails
+
+Run the following commands once in your terminal:
+
+```bash
 chmod +x setup_cron.sh
 ./setup_cron.sh
-This will run cron.php every day at midnight to send XKCD comics.
-
-⚠️ Make sure cron.php exists and is correctly sending comics using sendXKCDUpdatesToSubscribers().
-
-3. Setup PHP Mail
-Ensure your PHP environment supports the mail() function. For development/testing:
-
-On Linux, install and configure sendmail or postfix
-
-On production, use SMTP or external mail APIs (like SendGrid or PHPMailer)
-
-🔒 Security Notes
-Email verification codes are stored in PHP sessions
-
-Make sure your server uses HTTPS to protect user data
-
-Add rate-limiting or CAPTCHA to avoid spamming
-
-📌 To-Do
- Add logging system
-
- Store emails securely using a database
-
- Add UI/UX improvements and error displays
-
- Improve unsubscribe link support via tokens (e.g., one-click links)
-
-🙋‍♂️ Author
-Ravikant Jangid
